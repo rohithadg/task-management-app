@@ -8,23 +8,15 @@ type TaskListProps = {
   tasks: Task[];
   setTasks: SetState<Task[]>;
   refreshTasks: () => Promise<void>;
-  setError: SetState<string | undefined>;
-  setIsLoading: SetState<boolean>;
 };
 
-export const TaskList = ({
-  tasks,
-  setTasks,
-  setError,
-  setIsLoading,
-  refreshTasks,
-}: TaskListProps) => {
+export const TaskList = ({ tasks, setTasks, refreshTasks }: TaskListProps) => {
   const [showForm, setShowForm] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | undefined>();
 
   return (
     <div className="space-y-4">
-      <TaskListActions 
+      <TaskListActions
         showForm={showForm || !!editingTask}
         onAddTask={() => {
           setEditingTask(undefined);
@@ -32,13 +24,11 @@ export const TaskList = ({
         }}
         onRefresh={refreshTasks}
       />
-      
+
       {(showForm || editingTask) && (
         <TaskForm
           task={editingTask}
           setTasks={setTasks}
-          setError={setError}
-          setIsLoading={setIsLoading}
           onCancel={() => {
             setShowForm(false);
             setEditingTask(undefined);
@@ -49,15 +39,13 @@ export const TaskList = ({
           }}
         />
       )}
-      
+
       <div className="space-y-3">
-        {tasks.map(task => (
+        {tasks.map((task) => (
           <TaskCard
             key={task.id}
             task={task}
             setTasks={setTasks}
-            setError={setError}
-            setIsLoading={setIsLoading}
             onEdit={(task) => {
               setEditingTask(task);
               setShowForm(true);

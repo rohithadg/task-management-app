@@ -1,18 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { TaskList } from "../components/TaskList";
-import { useTasks } from "../hooks/useTasks";
 import { TaskNotifications } from "../components/TaskNotifications";
 import { useFetchTasks } from "../hooks/useFetchTasks";
 import { Container, Paper } from "@mui/material";
+import { Task } from "../types/task";
 
 function TaskListPage() {
-  const { tasks, setTasks, isLoading, setIsLoading, error, setError } =
-    useTasks();
-  const { fetchTasksData } = useFetchTasks({
-    setTasks,
-    setIsLoading,
-    setError,
-  });
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  const { fetchTasksData } = useFetchTasks({ setTasks });
 
   useEffect(() => {
     fetchTasksData();
@@ -24,17 +20,11 @@ function TaskListPage() {
         <TaskList
           tasks={tasks}
           setTasks={setTasks}
-          setError={setError}
-          setIsLoading={setIsLoading}
           refreshTasks={fetchTasksData}
         />
       </Paper>
 
-      <TaskNotifications
-        isLoading={isLoading}
-        error={error}
-        refreshTasks={fetchTasksData}
-      />
+      <TaskNotifications refreshTasks={fetchTasksData} />
     </Container>
   );
 }

@@ -1,25 +1,21 @@
 import { useCallback } from "react";
 import { createTask, updateTask, deleteTask } from "../api/taskService";
 import { SetState, Task } from "../types/task";
+import { useAppState } from "../hooks/useAppState";
 
 type MutationTasksDependencies = {
   setTasks: SetState<Task[]>;
-  setIsLoading: SetState<boolean>;
-  setError: SetState<string | undefined>;
 };
 
-export const useTaskMutations = ({
-  setTasks,
-  setIsLoading,
-  setError,
-}: MutationTasksDependencies) => {
+export const useTaskMutations = ({ setTasks }: MutationTasksDependencies) => {
+  const { setIsLoading, setError } = useAppState();
+
   const addTask = useCallback(
     async (taskData: Omit<Task, "id">) => {
       try {
         setIsLoading(true);
         setError(undefined);
 
-        // await new Promise((f) => setTimeout(f, 3_000));
         const newTask = await createTask(taskData);
 
         setTasks((prev) => [...prev, newTask]);
@@ -40,7 +36,6 @@ export const useTaskMutations = ({
         setIsLoading(true);
         setError(undefined);
 
-        // await new Promise((f) => setTimeout(f, 3_000));
         const updatedTask = await updateTask(taskId, updates);
 
         setTasks((prev) =>
@@ -64,7 +59,6 @@ export const useTaskMutations = ({
         setIsLoading(true);
         setError(undefined);
 
-        // await new Promise((f) => setTimeout(f, 3000));
         await deleteTask(taskId);
         setTasks((prev) => prev.filter((t) => t.id !== taskId));
       } catch (err) {

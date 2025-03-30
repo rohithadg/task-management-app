@@ -12,7 +12,6 @@ terraform {
 
 provider "aws" {
   region  = local.aws_region
-  profile = "gd"
 }
 
 locals {

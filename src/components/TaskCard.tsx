@@ -5,28 +5,15 @@ import { useTaskMutations } from "../hooks/useTaskMutations";
 type TaskCardProps = {
   task: Task;
   setTasks: SetState<Task[]>;
-  setIsLoading: SetState<boolean>;
-  setError: SetState<string | undefined>;
   onEdit: (task: Task) => void;
 };
 
-
-export const TaskCard = ({
-  task,
-  setTasks,
-  setIsLoading,
-  setError,
-  onEdit,
-}: TaskCardProps) => {
+export const TaskCard = ({ task, setTasks, onEdit }: TaskCardProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const isDisabled = isUpdating || isDeleting;
 
-  const { removeTask, modifyTask } = useTaskMutations({
-    setTasks,
-    setIsLoading,
-    setError,
-  });
+  const { removeTask, modifyTask } = useTaskMutations({ setTasks });
 
   const handleDelete = async (id: string) => {
     console.log("handle delete");

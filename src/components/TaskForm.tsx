@@ -6,8 +6,6 @@ import { CircularProgress } from "@mui/material";
 type TaskFormProps = {
   task?: Task;
   setTasks: SetState<Task[]>;
-  setIsLoading: SetState<boolean>;
-  setError: SetState<string | undefined>;
   onCancel: () => void;
   onSuccess?: () => void;
 };
@@ -15,8 +13,6 @@ type TaskFormProps = {
 export const TaskForm = ({
   task,
   setTasks,
-  setIsLoading,
-  setError,
   onCancel,
   onSuccess,
 }: TaskFormProps) => {
@@ -27,11 +23,7 @@ export const TaskForm = ({
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { addTask, modifyTask } = useTaskMutations({
-    setTasks,
-    setIsLoading,
-    setError,
-  });
+  const { addTask, modifyTask } = useTaskMutations({ setTasks });
 
   useEffect(() => {
     if (task) {

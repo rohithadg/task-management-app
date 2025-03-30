@@ -1,18 +1,15 @@
 import { useCallback } from "react";
 import { fetchTasks } from "../api/taskService";
 import { SetState, Task } from "../types/task";
+import { useAppState } from "../hooks/useAppState";
 
 type FetchTasksDependencies = {
   setTasks: SetState<Task[]>;
-  setIsLoading: SetState<boolean>;
-  setError: SetState<string | undefined>;
 };
 
-export const useFetchTasks = ({
-  setTasks,
-  setIsLoading,
-  setError,
-}: FetchTasksDependencies) => {
+export const useFetchTasks = ({ setTasks }: FetchTasksDependencies) => {
+  const { setIsLoading, setError } = useAppState();
+
   const fetchTasksData = useCallback(async () => {
     try {
       setIsLoading(true);

@@ -1,16 +1,13 @@
 import { CircularProgress, Button, Alert } from "@mui/material";
+import { useAppState } from "../hooks/useAppState";
 
 type TaskNotificationsProps = {
-  isLoading: boolean;
-  error?: string;
   refreshTasks: () => Promise<void>;
 };
 
-export const TaskNotifications = ({
-  isLoading,
-  error,
-  refreshTasks,
-}: TaskNotificationsProps) => {
+export const TaskNotifications = ({ refreshTasks }: TaskNotificationsProps) => {
+  const { isLoading, error } = useAppState();
+
   if (isLoading) {
     return (
       <div className="fixed top-4 right-4 z-50">
