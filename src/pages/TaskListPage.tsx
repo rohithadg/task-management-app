@@ -16,7 +16,7 @@ function TaskListPage() {
 
   useEffect(() => {
     fetchTasksData();
-  }, []);
+  }, [fetchTasksData]);
 
   return (
     <Container component="main" maxWidth="md" className="space-y-6">
