@@ -53,12 +53,13 @@ AWS_PROFILE=<your-profile> terraform destroy -auto-approve
 ## AWS resources used
 
 - S3
-Deploying to S3 as a static website. Granted permissions to CloudFront by S3 Bucket Policy
+  - Deploying to S3 as a static website. Granted permissions to CloudFront by S3 Bucket Policy
 - CloudFront
-CloudFront used as the CDN
+  - CloudFront used as the CDN
 
 ## Assumptions and Limitations
 
 - Assumed no user authentication/authorization needed
 - No special security features are implemented such as CORS
 - To keep it simple, no filtering or sorting implemented
+- by default AWS region `ap-southeast-2` is set in the `main.tf`. change if you need to deploy to any other region
