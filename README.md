@@ -1,54 +1,64 @@
-# React + TypeScript + Vite
+# Task Management App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend app for the Task Management. It is built with React, TypeScript, MUI, Tailwind CSS, Vite and deploying to AWS with Terraform.
 
-Currently, two official plugins are available:
+## Features
+- Tasks List
+- Task Form to add/edit tasks
+- Ability to change Task Status
+- Delete a task
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Run locally
+NodeJs, Terraform and AWS CLI should be installed first.
 
-## Expanding the ESLint configuration
+Before run, update the `.env` for the Backend url.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+```bash
+npm i
+npm run dev
+```
+Access the app in browser http://localhost:5173/ 
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Deploy into AWS
+
+Make sure you have AWS credentials setup in your environment.
+
+Run the `deploy.sh`
+
+```bash
+sh ./deploy.sh
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+If you have multiple AWS profiles, then,
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+AWS_PROFILE=<your-profile> sh ./deploy.sh
 ```
+end of the run, grab the CloudFront URL and access via browser.
+
+## Delete the deployment in AWS
+
+To delete all the frontend related resources in AWS,
+
+```bash
+terraform destroy -auto-approve
+```
+
+if you have multiple AWS profiles,
+
+```bash
+AWS_PROFILE=<your-profile> terraform destroy -auto-approve
+```
+
+## AWS resources used
+
+- S3
+Deploying to S3 as a static website. Granted permissions to CloudFront by S3 Bucket Policy
+- CloudFront
+CloudFront used as the CDN
+
+## Assumptions and Limitations
+
+- Assumed no user authentication/authorization needed
+- No special security features are implemented such as CORS
+- To keep it simple, no filtering or sorting implemented
